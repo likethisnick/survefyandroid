@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity {
                             if (response.isSuccessful() && response.body() != null) {
                                 String userId = response.body().userId;
                                 String token1 = response.body().token;
+                                
                                 Boolean isauth = response.body().isAuth;
+
                                 return;
                             } else {
                                 try {
