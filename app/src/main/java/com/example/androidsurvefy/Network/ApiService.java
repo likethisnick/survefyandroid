@@ -1,6 +1,7 @@
 package com.example.androidsurvefy.Network;
 
 import com.example.androidsurvefy.Model.LoginRequest;
+import com.example.androidsurvefy.Model.NoteResponse;
 import com.example.androidsurvefy.Model.ProfileResponse;
 import com.example.androidsurvefy.Model.TokenResponse;
 
@@ -17,4 +18,10 @@ public interface ApiService {
 
     @GET("pingauth")
     Call<ProfileResponse> getProfile(@Header("AUTHORIZATION") String authHeader);
+
+    @POST("/auth/register")
+    Call<TokenResponse> register(@Body LoginRequest request);
+
+    @GET("notes")
+    Call<NoteResponse> getNotes();
 }

@@ -1,8 +1,17 @@
 package com.example.androidsurvefy;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.view.View;
+import android.content.Intent;
+import android.widget.Toast;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +32,7 @@ import java.util.concurrent.CompletableFuture;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,100 +42,117 @@ public class MainActivity extends AppCompatActivity {
     private ApiService api;
     protected String token;
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:5219/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        View statusIndicator = findViewById(R.id.statusIndicator);
+        Button buttonLogin = findViewById(R.id.button_login);
+        Button buttonCheckLogin = findViewById(R.id.button_logincheck);
+        Button logoutButton = findViewById(R.id.button_logout);
+        Button buttonRegister = findViewById(R.id.button_register);
+        Button buttonDashboard = findViewById(R.id.button_dashboard);
 
-        api = ApiClient.getApiService(null);
-        loginAndFetchProfile("admin2@admin.com", "admin2");
+        // button LOGIN
+        buttonLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
-    }
+        // button CHECK AUTH
+        buttonCheckLogin.setOnClickListener(v -> {
+            String token = AppContext.getInstance().getToken();
 
-    private void loadNotes() {
-    /*    Call<NoteResponse> call = ApiClient.getNotesApi().getNotes();
-        call.enqueue(new Callback<NoteResponse>() {
-            @Override
-            public void onResponse(Call<NoteResponse> call, Response<NoteResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Note> notes = response.body().getNotes();
-                    adapter = new NoteAdapter(notes);
-                    recyclerView.setAdapter(adapter);
-                }
+            if (token != null && !token.isEmpty()) {
+                api = ApiClient.getApiService(token);
+                String authHeader = "Bearer " + token;
+                fetchProfile(authHeader);
+            } else {
+                Log.e("AUTH", "Token doesn't exist, can't check login.");
+                Toast.makeText(this, "No token set", Toast.LENGTH_SHORT).show();
             }
+        });
 
-            @Override
-            public void onFailure(Call<NoteResponse> call, Throwable t) {
-                Log.e("API_ERROR", "Error: ", t);
+        // button LOG OUT
+        logoutButton.setVisibility(View.GONE);
+        AppContext.getInstance().getTokenLiveData().observe(this, token -> {
+            boolean loggedIn = token != null && !token.isEmpty();
+
+            statusIndicator.setBackground(getDrawable(
+                    loggedIn ? R.drawable.indicator_circle_green : R.drawable.indicator_circle_grey
+            ));
+
+            if (loggedIn) {
+                logoutButton.setVisibility(View.VISIBLE);
             }
-        });*/
+        });
+        logoutButton.setOnClickListener(v -> {
+            AppContext.getInstance().logout();
+            logoutButton.setVisibility(View.GONE);
+            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+        });
+
+        // button REGISTER
+        buttonRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        //button DASHBOARD
+        buttonDashboard.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+            startActivity(intent);
+        });
+
+        // GREEN RED Indicator
+        statusIndicator.setBackground(getDrawable(R.drawable.indicator_circle_grey));
+        AppContext.getInstance().getTokenLiveData().observe(this, token -> {
+            if (token != null && !token.isEmpty()) {
+                statusIndicator.setBackground(getDrawable(R.drawable.indicator_circle_green));
+            }
+        });
+
+        // visibility button change when logged
+        AppContext.getInstance().getUserIdLiveData().observe(this, userId -> {
+            boolean loggedIn = userId != null && !userId.isEmpty();
+
+            buttonLogin.setVisibility(loggedIn ? View.GONE : View.VISIBLE);
+            buttonRegister.setVisibility(loggedIn ? View.GONE : View.VISIBLE);
+            buttonDashboard.setVisibility(loggedIn ? View.VISIBLE : View.GONE);
+        });
     }
-
-    private void loginAndFetchProfile(String email, String password) {
-        LoginRequest loginRequest = new LoginRequest(email, password);
-
-        api.login(loginRequest).enqueue(new Callback<TokenResponse>() {
+    private void fetchProfile(String authHeader) {
+        api.getProfile(authHeader).enqueue(new Callback<ProfileResponse>() {
             @Override
-            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String token = response.body().token;
-
-                    if (token == null || token.isEmpty()) {
-                        Log.e("API", "Получен пустой токен. Запрос профиля не будет выполнен.");
-                        return;
-                    }
-
-                    String authHeader = "Bearer " + token;
-
-                    api.getProfile(authHeader).enqueue(new Callback<ProfileResponse>() {
-                        @Override
-                        public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
-                            if (response.isSuccessful() && response.body() != null) {
-                                String userId = response.body().userId;
-                                String token1 = response.body().token;
-                                
-                                Boolean isauth = response.body().isAuth;
-
-                                return;
-                            } else {
-                                try {
-                                    String errorBody = response.errorBody() != null
-                                            ? response.errorBody().string()
-                                            : "no error body";
-
-                                    Log.e("API", "Ошибка профиля: " + response.code() + "\nТело ошибки: " + errorBody);
-                                } catch (IOException e) {
-                                    Log.e("API", "Ошибка чтения тела ошибки", e);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ProfileResponse> call, Throwable t) {
-                            Log.e("API", "Ошибка запроса профиля", t);
-                        }
-                    });
-
+                    String userId = response.body().userId;
+                    String token1 = response.body().token;
+                    Boolean isAuth = response.body().isAuth;
+                    Toast.makeText(MainActivity.this, "Current user id: " + userId, Toast.LENGTH_SHORT).show();
                 } else {
                     try {
+                        View statusIndicator = findViewById(R.id.statusIndicator);
+                        statusIndicator.setBackground(getDrawable(R.drawable.indicator_circle_red));
+                        Toast.makeText(MainActivity.this, "Session expired", Toast.LENGTH_SHORT).show();
                         String errorBody = response.errorBody() != null
                                 ? response.errorBody().string()
                                 : "no error body";
-                        Log.e("API", "❌ Ошибка входа: " + response.code() + "\n" + errorBody);
+
+                        Log.e("API", "Profile error: " + response.code() + "\n" + errorBody);
                     } catch (IOException e) {
-                        Log.e("API", "Ошибка чтения тела ошибки при логине", e);
+                        Log.e("API", "Error reading body on fetch profile", e);
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<TokenResponse> call, Throwable t) {
-                Log.e("API", "❌ Ошибка логина", t);
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                View statusIndicator = findViewById(R.id.statusIndicator);
+                statusIndicator.setBackground(getDrawable(R.drawable.indicator_circle_red));
+                Log.e("API", "Get profile api error", t);
             }
         });
     }

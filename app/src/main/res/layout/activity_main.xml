@@ -5,12 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <LinearLayout
+        android:id="@+id/centerColumn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:id="@+id/statusIndicator"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="24dp"
+            android:background="#808080" />
+
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:text="Login"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/button_logincheck"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:text="check auth"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:text="Register"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:text="Log out"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/button_dashboard"
+            android:layout_width="200dp"
+            android:layout_height="56dp"
+            android:text="dashboard"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
