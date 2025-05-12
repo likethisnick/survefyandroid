@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textQuestionId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ID:"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTextQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Question text"
+        android:layout_marginTop="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOptions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:id="@+id/buttonPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Previous" />
+
+        <Button
+            android:id="@+id/buttonNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:layout_marginLeft="16dp" />
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginLeft="16dp" />
+    </LinearLayout>
+</LinearLayout>

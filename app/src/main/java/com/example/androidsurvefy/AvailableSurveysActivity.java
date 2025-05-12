@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidsurvefy.Adapter.NoteAdapter;
-import com.example.androidsurvefy.Model.Note;
-import com.example.androidsurvefy.Model.NoteResponse;
+import com.example.androidsurvefy.Adapter.AllSurveyAdapter;
+import com.example.androidsurvefy.Model.TemplateSurveyDto;
+import com.example.androidsurvefy.Model.TemplateSurveysResponse;
 import com.example.androidsurvefy.Network.ApiClient;
 import com.example.androidsurvefy.Network.ApiService;
 
@@ -32,57 +32,34 @@ public class AvailableSurveysActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_available_surveys);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerSurveys);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Button backButton = findViewById(R.id.button_back);
         backButton.setOnClickListener(v -> finish());
 
-        loadNotes();
+        loadAllSurveys();
     }
 
-    private void loadNotes() {
-        String token = AppContext.getInstance().getToken();
+    private void loadAllSurveys() {
+        ApiService api = ApiClient.getApiService(AppContext.getInstance().getToken());
 
-        if (token != null && !token.isEmpty()) {
-            api = ApiClient.getApiService(token);
-        }
-        else {
-            api = ApiClient.getApiService(null);
-        }
-
-        Call<NoteResponse> call = api.getNotes();
-
-        call.enqueue(new Callback<NoteResponse>() {
+        api.getAllSurveys().enqueue(new Callback<TemplateSurveysResponse>() {
             @Override
-            public void onResponse(Call<NoteResponse> call, Response<NoteResponse> response) {
+            public void onResponse(Call<TemplateSurveysResponse> call, Response<TemplateSurveysResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Note> notes = response.body().getNotes();
-                    NoteAdapter adapter = new NoteAdapter(notes);
+                    List<TemplateSurveyDto> surveys = response.body().getSurveys();
+
+                    AllSurveyAdapter adapter = new AllSurveyAdapter(surveys);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    try {
-                        String errorBody = response.errorBody() != null
-                                ? response.errorBody().string()
-                                : "empty error body";
-
-                        Log.e("API_ERROR", "Server returned error: " + response.code() + "\n" + errorBody);
-
-                        Toast.makeText(AvailableSurveysActivity.this,
-                                "Error " + response.code() + ": " + errorBody,
-                                Toast.LENGTH_LONG).show();
-
-                    } catch (IOException e) {
-                        Log.e("API_ERROR", "Failed to read error body", e);
-                        Toast.makeText(AvailableSurveysActivity.this, "Unknown error", Toast.LENGTH_SHORT).show();
-                    }
+                    Log.e("API", "Loading error: " + response.code());
                 }
             }
 
             @Override
-            public void onFailure(Call<NoteResponse> call, Throwable t) {
-                Log.e("API_ERROR", "Connecting to the server issue", t);
-                Toast.makeText(AvailableSurveysActivity.this, "Connection error", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<TemplateSurveysResponse> call, Throwable t) {
+                Log.e("API", "Communication error", t);
             }
         });
     }

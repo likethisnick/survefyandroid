@@ -29,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.editTextPassword);
         Button loginButton = findViewById(R.id.buttonLoginSubmit);
         TextView errorText = findViewById(R.id.textError);
+        Button backButton = findViewById(R.id.buttonBack);
+        backButton.setOnClickListener(v -> finish());
 
         api = ApiClient.getApiService(null);
 
@@ -66,7 +68,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
-                Log.e("API", "Ошибка логина", t);
+                errorText.setText(t.toString());
+                errorText.setVisibility(View.VISIBLE);
+
+                Log.e("API", "login error", t);
             }
         });
     }

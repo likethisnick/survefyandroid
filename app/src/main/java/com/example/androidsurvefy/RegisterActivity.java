@@ -36,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.editTextPassword);
         Button registerButton = findViewById(R.id.buttonRegisterSubmit);
         TextView errorText = findViewById(R.id.textError);
+        Button backButton = findViewById(R.id.buttonBack);
+        backButton.setOnClickListener(v -> finish());
 
         api = ApiClient.getApiService(null);
 

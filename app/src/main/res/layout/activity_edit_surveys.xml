@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSurveys"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/textError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        android:paddingTop="8dp"
+        android:text="Error" />
+
+    <Button
+        android:id="@+id/buttonBack"
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

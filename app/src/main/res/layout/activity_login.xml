@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:text="LOG IN"
             android:layout_marginTop="8dp"/>
+
         <TextView
             android:id="@+id/textError"
             android:layout_width="match_parent"
@@ -51,6 +52,14 @@
             android:visibility="gone"
             android:gravity="center"
             android:layout_marginTop="12dp"/>
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:text="Back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

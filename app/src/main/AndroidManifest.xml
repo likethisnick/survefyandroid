@@ -26,6 +26,10 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".DashboardActivity"/>
         <activity android:name=".AvailableSurveysActivity"/>
+        <activity android:name=".CreateSurveyActivity"/>
+        <activity android:name=".EditSurveysActivity"/>
+        <activity android:name=".SurveyDetailActivity"/>
+        <activity android:name=".QuestionsActivity"/>
     </application>
 
 </manifest>
