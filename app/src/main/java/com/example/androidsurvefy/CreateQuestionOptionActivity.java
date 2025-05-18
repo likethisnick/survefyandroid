@@ -1,8 +1,11 @@
 package com.example.androidsurvefy;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,7 @@ public class CreateQuestionOptionActivity extends AppCompatActivity {
 
     private EditText editTextOptionText, editTextOptionOrder;
     private Button buttonSave, buttonCancel;
+    TextView textError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class CreateQuestionOptionActivity extends AppCompatActivity {
         editTextOptionOrder = findViewById(R.id.editTextOptionOrder);
         buttonSave = findViewById(R.id.buttonSaveOption);
         buttonCancel = findViewById(R.id.buttonCancelOption);
+        textError = findViewById(R.id.textError);
 
         String questionId = getIntent().getStringExtra("questionId");
         String templateSurveyId = getIntent().getStringExtra("templateSurveyId");
@@ -41,7 +46,9 @@ public class CreateQuestionOptionActivity extends AppCompatActivity {
             } catch (NumberFormatException ignored) {}
 
             if (text.isEmpty()) {
-                Toast.makeText(this, "Option text required", Toast.LENGTH_SHORT).show();
+                textError.setText("Option text cannot be empty");
+                textError.setTextColor(Color.RED);
+                textError.setVisibility(View.VISIBLE);
                 return;
             }
 

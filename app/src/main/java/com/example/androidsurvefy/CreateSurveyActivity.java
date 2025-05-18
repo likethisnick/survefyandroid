@@ -23,6 +23,7 @@ public class CreateSurveyActivity extends AppCompatActivity {
 
     private EditText nameEditText;
     private EditText descriptionEditText;
+    private TextView errorText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +34,17 @@ public class CreateSurveyActivity extends AppCompatActivity {
         descriptionEditText = findViewById(R.id.editTextDescription);
         Button createButton = findViewById(R.id.buttonCreate);
         Button backButton = findViewById(R.id.buttonBack);
+        errorText = findViewById(R.id.textError);
 
         createButton.setOnClickListener(v -> {
             String name = nameEditText.getText().toString();
             String description = descriptionEditText.getText().toString();
+
+            if (name.isEmpty()) {
+                errorText.setText("Can't create survey without name");
+                errorText.setVisibility(View.VISIBLE);
+                return;
+            }
 
             createSurvey(name,description);
             Toast.makeText(this, "Created: " + name, Toast.LENGTH_SHORT).show();
@@ -47,7 +55,7 @@ public class CreateSurveyActivity extends AppCompatActivity {
 
 
     private void createSurvey(String name, String description) {
-        TextView errorText = findViewById(R.id.textError);
+
 
         String token = AppContext.getInstance().getToken();
         String userId = AppContext.getInstance().getUserId();
