@@ -8,6 +8,4 @@ public class CreateSurveyRequest {
         this.name = name;
         this.description = description;
     }
-
-    // геттеры/сеттеры (если нужны)
 }

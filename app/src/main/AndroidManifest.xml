@@ -30,6 +30,11 @@
         <activity android:name=".EditSurveysActivity"/>
         <activity android:name=".SurveyDetailActivity"/>
         <activity android:name=".QuestionsActivity"/>
+        <activity android:name=".CreateQuestionActivity"/>
+        <activity android:name=".CreateQuestionOptionActivity"/>
+        <activity
+            android:name=".EditQuestionOptionActivity"
+            android:theme="@style/DialogTheme" />
     </application>
 
 </manifest>

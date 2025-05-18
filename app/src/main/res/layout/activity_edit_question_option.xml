@@ -1,0 +1,40 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@android:color/white"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/editTextOptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:hint="Option text" />
+
+        <EditText
+            android:id="@+id/editTextOptionOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:inputType="number"
+            android:hint="Option order"
+            android:layout_marginTop="12dp" />
+
+        <Button
+            android:id="@+id/buttonSaveOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+</FrameLayout>

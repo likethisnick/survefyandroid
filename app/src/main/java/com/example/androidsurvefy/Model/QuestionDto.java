@@ -11,7 +11,6 @@ public class QuestionDto {
     public String getId() {
         return id;
     }
-
     public String getCreatedOn() {
         return createdOn;
     }

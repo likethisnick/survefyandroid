@@ -1,3 +1,9 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowMinWidthMajor">95%</item>
+        <item name="android:windowMinWidthMinor">95%</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

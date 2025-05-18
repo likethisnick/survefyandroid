@@ -1,55 +1,116 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textQuestionId"
-        android:layout_width="match_parent"
+        android:id="@+id/textNoQuestions"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID:"
-        android:textSize="14sp" />
+        android:text="No questions"
+        android:textSize="20sp"
+        android:textColor="#888888"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/editTextQuestion"
+    <ScrollView
+        android:id="@+id/scrollContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Question text"
-        android:layout_marginTop="8dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttonContainer"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="-31dp"
+        android:padding="16dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerOptions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="12dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/questionContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textQuestionId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ID:"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@android:color/transparent"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:text="Question text"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/buttonAddOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:text="Add question option"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="12dp">
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/buttonPrevious"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Previous" />
+            android:text="Previous"
+            android:layout_marginTop="0dp" />
 
         <Button
             android:id="@+id/buttonNext"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Next"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonAddQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Question"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/buttonDeleteQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Question"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Back"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginTop="8dp" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
