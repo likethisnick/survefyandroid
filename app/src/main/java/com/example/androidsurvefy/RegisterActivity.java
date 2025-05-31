@@ -113,9 +113,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
-                errorText.setText("Ошибка соединения с сервером");
+                errorText.setText("Server connection error");
                 errorText.setVisibility(View.VISIBLE);
-                Log.e("API", "Ошибка регистрации", t);
+                Log.e("API", "Registration error", t);
             }
         });
     }

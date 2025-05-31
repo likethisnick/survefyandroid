@@ -8,6 +8,4 @@ public class TokenResponse {
 
     @SerializedName("userId")
     public String userId;
-
-    // и другие поля, если есть
 }

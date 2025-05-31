@@ -1,4 +1,4 @@
-package com.example.androidsurvefy; // используй твой пакет
+package com.example.androidsurvefy;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
